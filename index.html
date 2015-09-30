@@ -1,0 +1,99 @@
+<style type="text/css">
+#mask {
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:9000;
+  background-color:rgba(0,0,0,0.3);
+  display:none;
+}
+#boxes .window {
+  position:absolute;
+  left:0;
+  top:0;
+  display:none;
+  z-index:9999;
+  padding:20px;
+  text-align: center;
+	background-image: url(Inauguracion.jpg);
+	background-size: 440px;
+	background-repeat: no-repeat;
+}
+#boxes #dialog {
+  width:400px;
+  height:580px;
+  font-size: 15pt;
+		box-shadow: 2px 2px 3px #999;
+}
+
+#popupfoot{
+	width: 26px;
+	text-align: center;
+	border-radius: 50%;
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	background-color: #fff;
+	box-shadow: 2px 2px 3px #999;
+		text-decoration: none;
+	color: #666;
+	font-family: cursive;
+	font-size: 14pt;
+}
+
+.popupfoot:hover{
+  background-color: #D1D1D1;
+}
+
+</style>
+<div id="boxes">
+  <div style="top: 199.5px; left: 551.5px; display: none;" id="dialog" class="window">
+	 <a href="#" class="close agree"><div id="popupfoot"> X</div></a>
+  </div>
+  <div style="width: 1478px; font-size: 32pt; color:white; height: 602px; display: none; opacity: 0.8;" id="mask"></div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+		var id = '#dialog';
+
+		//Get the screen height and width
+		var maskHeight = $(document).height();
+		var maskWidth = $(window).width();
+
+		//Set heigth and width to mask to fill up the whole screen
+		$('#mask').css({'width':maskWidth,'height':maskHeight});
+
+		//transition effect
+		$('#mask').fadeIn(500);
+		$('#mask').fadeTo("slow",0.9);
+
+		//Get the window height and width
+		var winH = $(window).height();
+		var winW = $(window).width();
+
+		//Set the popup window to center
+		$(id).css('top',  winH/2-$(id).height()/2);
+		$(id).css('left', winW/2-$(id).width()/2);
+
+		//transition effect
+		$(id).fadeIn(2000);
+
+	//if close button is clicked
+	$('.window .close').click(function (e) {
+		//Cancel the link behavior
+		e.preventDefault();
+
+		$('#mask').hide();
+		$('.window').hide();
+	});
+
+	//if mask is clicked
+	$('#mask').click(function () {
+		$(this).hide();
+		$('.window').hide();
+	});
+
+});
+</script>
