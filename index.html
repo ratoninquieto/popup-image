@@ -1,60 +1,85 @@
 <style type="text/css">
-#mask {
-  position:absolute;
-  left:0;
-  top:0;
-  z-index:9000;
-  background-color:rgba(0,0,0,0.3);
-  display:none;
-}
-#boxes .window {
-  position:absolute;
-  left:0;
-  top:0;
-  display:none;
-  z-index:9999;
-  padding:20px;
-  text-align: center;
-	background-image: url(demo_img.png);
-	background-size: 440px;
-	background-repeat: no-repeat;
-}
-#boxes #dialog {
-  width:400px;
-  height:580px;
-  font-size: 15pt;
+	#mask {
+		position:absolute;
+		left:0;
+		top:0;
+		z-index:9000;
+		background-color:rgba(0,0,0,0.3);
+		display:none;
+		width: 100%;
+		font-size: 32pt;
+		color:white;
+		height: 100%;
+	}
+	#boxes .window {
+		position:absolute;
+		display:none;
+		z-index:9999;
+		padding:20px;
+		text-align: center;
+		background-image: url(demo_img.png);
+		background-size: 100%;
+		background-repeat: no-repeat;
+		width:400px;
+		height:580px;
+		font-size: 15pt;
 		box-shadow: 2px 2px 3px #999;
-}
+		top: 199.5px;
+		left: 551.5px;
+		display: none;
+	}
 
-#popupfoot{
-	width: 26px;
-	text-align: center;
-	border-radius: 50%;
-	position: absolute;
-	top: -5px;
-	right: -5px;
-	background-color: #fff;
-	box-shadow: 2px 2px 3px #999;
+	#btnPopup{
+		width: 28px;
+		text-align: center;
+		border-radius: 50%;
+		position: absolute;
+		top: -10px;
+		right: -10px;
+		background-color: #fff;
+		box-shadow: 2px 2px 3px #999;
 		text-decoration: none;
-	color: #666;
-	font-family: cursive;
-	font-size: 14pt;
-}
+		color: #666;
+		font-family: cursive;
+		font-size: 14pt;
+		border:none;
+	}
 
-.popupfoot:hover{
-  background-color: #D1D1D1;
+	/*Tablet (Portrait)*/
+@media only screen and (min-width: 768px) and (max-width: 1050px) {
+		#boxes .window {
+		width:400px;
+		height:580px;
+		top: 199.5px;
+		left: 551.5px;
+	}
 }
+/*Mobile (Portrait)*/
+@media only screen and (max-width: 767px) {
+			#boxes .window {
+		width:210px;
+		height:313px;
+		top: 199.5px;
+		left: 551.5px;
+		background-size: 250px;
+	}
 
+}
+/*#Mobile (Landscape)==================================================================================================== */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+			#boxes .window {
+		width:360px;
+		height:525px;
+		top: 199.5px;
+		left: 551.5px;
+		background-size: 400px;
+	}
+}
 </style>
-<div id="boxes">
-  <div style="top: 199.5px; left: 551.5px; display: none;" id="dialog" class="window">
-	 <a href="#" class="close agree"><div id="popupfoot"> X</div></a>
-  </div>
-  <div style="width: 1478px; font-size: 32pt; color:white; height: 602px; display: none; opacity: 0.8;" id="mask"></div>
-</div>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
+	$(document).ready(function() {
 
 		var id = '#dialog';
 
@@ -80,22 +105,56 @@ $(document).ready(function() {
 		//transition effect
 		$(id).fadeIn(2000);
 
-	//if close button is clicked
-	$('.window .close').click(function (e) {
-		//Cancel the link behavior
-		e.preventDefault();
+		//if close button is clicked
+		$('.window .close').click(function (e) {
+			//Cancel the link behavior
+			e.preventDefault();
 
-		$('#mask').hide();
-		$('.window').hide();
+			$('#mask').hide();
+			$('.window').hide();
+		});
+
+		//if mask is clicked
+		$('#mask').click(function () {
+			$(this).hide();
+			$('.window').hide();
+		});
+
 	});
-
-	//if mask is clicked
-	$('#mask').click(function () {
-		$(this).hide();
-		$('.window').hide();
-	});
-
-});
 </script>
 
+
+<script type="text/javascript">
+	var cookieName2 = 'popup_img';
+	if ((!window.postBack && document.cookie.indexOf(cookieName2) == -1) || (window.postBack)) {
+		function check_popup(){
+
+			var checkPop = document.getElementById('chk_popup');
+			if (checkPop.checked) {
+
+				if (window.postBack != null){
+
+					document.getElementById('boxes').style.display = 'none';
+					document.getElementById('fondo').style.display = 'none';
+					window.postBack();
+
+				}
+				else
+				{
+					document.cookie =cookieName2 + '=1';
+					document.getElementById('boxes').style.display = 'none';
+				}
+
+			}
+		}
+
+		if (navigator.cookieEnabled) {
+
+			var sPopup='<div id="boxes"><div id="dialog" class="window"><a href="#" class="close agree"><input type="submit" name="btn_popup_img" value="X" id="btnPopup" onClick="javascript:check_popup()" style="background-color:none;cursor:pointer" /></a><input id="chk_popup" type="checkbox" name="chk_popup" style="display:none;" checked/></div><div id="mask"></div></div>'
+
+
+			document.write(sPopup )
+		}
+	}
+</script>
 
